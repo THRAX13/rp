@@ -1,0 +1,14 @@
+services:
+  relayops:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"   # put a TLS reverse proxy (Caddy, nginx, Cloudflare Tunnel) in front
+    environment:
+      PUBLIC_URL: "https://relayops.example.com"   # <- the https URL senders will use
+      TRUST_PROXY: "1"                             # one reverse proxy in front
+      ALLOW_SIGNUP: "0"
+    volumes:
+      - relayops-data:/data
+volumes:
+  relayops-data:
